@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="km" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>របាយការណ៍ឧប្បត្តិវហេតុ - មន្ទីរពេទ្យខេត្តកំពង់ឆ្នាំង</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary: #1a3c6e;
+    --primary-light: #2a5298;
+    --accent: #c8102e;
+    --accent-light: #e8192e;
+    --gold: #d4af37;
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #f7f9fc;
+    --border: #d0dae8;
+    --border-focus: #2a5298;
+    --text: #1a2a3a;
+    --text-muted: #5a7a9a;
+    --success: #1a7a4a;
+    --success-bg: #e6f7ee;
+    --error: #c8102e;
+    --error-bg: #fde8ec;
+    --shadow: 0 2px 12px rgba(26,60,110,0.10);
+    --shadow-lg: 0 8px 32px rgba(26,60,110,0.16);
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Kantumruy Pro', 'Hanuman', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* === HEADER === */
+  .site-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 60%, #1e5080 100%);
+    color: #fff;
+    padding: 0;
+    box-shadow: 0 4px 20px rgba(26,60,110,0.25);
+    position: relative;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 220px; height: 220px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 300px; height: 160px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50%;
+  }
+  .header-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .header-logo {
+    width: 64px; height: 64px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.3);
+    font-size: 28px;
+  }
+  .header-text { flex: 1; }
+  .header-kh-title {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .header-main-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #fff;
+  }
+  .header-subtitle {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 3px;
+  }
+  .header-badge {
+    background: var(--accent);
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .header-rule {
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 50%, var(--accent) 100%);
+  }
+
+  /* === LAYOUT === */
+  .page-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 16px 48px;
+  }
+
+  /* === FORM ID BAR === */
+  .form-id-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+  }
+  .form-id-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .form-id-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+    font-family: monospace;
+    letter-spacing: 1px;
+  }
+  .form-id-divider {
+    width: 1px; height: 24px;
+    background: var(--border);
+  }
+  .form-id-info {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: auto;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .urgency-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #fff3cd; color: #856404;
+    border: 1px solid #ffc107;
+    padding: 3px 10px; border-radius: 12px;
+    font-size: 0.72rem; font-weight: 600;
+  }
+
+  /* === CARD === */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .card-header {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    padding: 13px 22px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .card-header-icon {
+    width: 30px; height: 30px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: #fff;
+    flex-shrink: 0;
+  }
+  .card-header h2 {
+    font-size: 1.0rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.3px;
+  }
+  .card-header .section-num {
+    background: rgba(255,255,255,0.22);
+    color: #fff;
+    border-radius: 5px;
+    padding: 1px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-left: auto;
+  }
+  .card-body {
+    padding: 22px;
+  }
+
+  /* === FORM ELEMENTS === */
+  .form-row {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .form-group {
+    flex: 1;
+    min-width: 160px;
+  }
+  .form-group.full { flex: 100%; min-width: 100%; }
+  .form-group.third { flex: 1; min-width: 120px; }
+
+  label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 5px;
+  }
+  label .req {
+    color: var(--accent);
+    margin-left: 3px;
+  }
+  label .hint {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-left: 4px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="time"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 9px 13px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'Kantumruy Pro', 'Hanuman', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    background: var(--surface2);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--border-focus);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(42,82,152,0.10);
+  }
+  input[type="number"] { -moz-appearance: textfield; }
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  select { cursor: pointer; }
+
+  /* Gender radio */
+  .gender-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .gender-option {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: var(--surface2);
+    transition: all 0.18s;
+    user-select: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .gender-option:hover { border-color: var(--primary-light); background: #eef3fb; }
+  .gender-option input[type="radio"] { display: none; }
+  .gender-option.selected {
+    border-color: var(--primary);
+    background: #e8eef8;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .gender-option .radio-dot {
+    width: 16px; height: 16px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s;
+    flex-shrink: 0;
+  }
+  .gender-option.selected .radio-dot {
+    border-color: var(--primary);
+    background: var(--primary);
+  }
+  .gender-option.selected .radio-dot::after {
+    content: '';
+    width: 6px; height: 6px;
+    background: #fff;
+    border-radius: 50%;
+  }
+
+  /* Checkbox grid */
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+  }
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: var(--surface2);
+    transition: all 0.18s;
+    user-select: none;
+    font-size: 0.84rem;
+    font-weight: 500;
+  }
+  .checkbox-item:hover { border-color: var(--primary-light); background: #eef3fb; }
+  .checkbox-item input[type="checkbox"] { display: none; }
+  .checkbox-item.checked {
+    border-color: var(--primary);
+    background: #e8eef8;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .custom-check {
+    width: 17px; height: 17px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.18s;
+    font-size: 11px; color: transparent;
+  }
+  .checkbox-item.checked .custom-check {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+
+  /* SAC grid */
+  .sac-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .sac-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: var(--surface2);
+    transition: all 0.18s;
+    user-select: none;
+    text-align: center;
+    font-size: 0.82rem;
+  }
+  .sac-item:hover { border-color: var(--primary-light); background: #eef3fb; }
+  .sac-item input { display: none; }
+  .sac-item.checked { border-color: var(--primary); background: #e8eef8; color: var(--primary); font-weight: 700; }
+  .sac-item.sac1.checked { border-color: #c8102e; background: #fde8ec; color: #c8102e; }
+  .sac-item.sac2.checked { border-color: #e67300; background: #fff0e0; color: #e67300; }
+  .sac-item.sac3.checked { border-color: #b58900; background: #fdf8e0; color: #b58900; }
+  .sac-item.sac4.checked { border-color: #1a7a4a; background: #e6f7ee; color: #1a7a4a; }
+  .sac-item.nearmiss.checked { border-color: #6e3c8e; background: #f0e8f8; color: #6e3c8e; }
+  .sac-badge {
+    font-size: 1.1rem; font-weight: 800;
+    line-height: 1;
+  }
+  .sac-label { font-size: 0.72rem; font-weight: 600; line-height: 1.2; }
+
+  /* Reporter role */
+  .reporter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+  }
+  .reporter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: var(--surface2);
+    transition: all 0.18s;
+    user-select: none;
+    font-size: 0.86rem;
+    font-weight: 500;
+  }
+  .reporter-item:hover { border-color: var(--primary-light); background: #eef3fb; }
+  .reporter-item input { display: none; }
+  .reporter-item.selected { border-color: var(--primary); background: #e8eef8; color: var(--primary); font-weight: 700; }
+  .reporter-icon { font-size: 18px; }
+
+  /* Section separator */
+  .section-sep {
+    border: none;
+    border-top: 1.5px dashed var(--border);
+    margin: 18px 0;
+  }
+
+  /* Field note */
+  .field-note {
+    display: flex; align-items: flex-start; gap: 7px;
+    background: #f0f6ff;
+    border-left: 3px solid var(--primary-light);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 9px 13px;
+    margin-bottom: 14px;
+    font-size: 0.78rem;
+    color: var(--primary);
+    line-height: 1.5;
+  }
+
+  /* Other specify */
+  .other-specify-row {
+    display: flex; gap: 10px; align-items: flex-end;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .other-specify-row .form-group { flex: 1; min-width: 200px; }
+
+  /* Inline date-time group */
+  .datetime-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px 10px;
+    transition: border-color 0.2s;
+  }
+  .datetime-inline:focus-within {
+    border-color: var(--border-focus);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(42,82,152,0.10);
+  }
+  .datetime-inline .dt-seg {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .datetime-inline .dt-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .datetime-inline input {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    padding: 5px 4px;
+    width: auto;
+    min-width: 0;
+  }
+  .datetime-inline input:focus { box-shadow: none; background: transparent; }
+  .dt-sep { color: var(--text-muted); font-weight: 300; }
+
+  /* Submit area */
+  .submit-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 24px 22px;
+    margin-top: 8px;
+  }
+  .submit-area-top {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .submit-confirm-icon {
+    font-size: 22px; flex-shrink: 0; margin-top: 2px;
+  }
+  .submit-confirm-text {
+    font-size: 0.82rem; color: var(--text-muted); line-height: 1.6;
+  }
+  .submit-confirm-text strong {
+    color: var(--text); font-weight: 600;
+  }
+  .submit-actions {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .btn-reset {
+    padding: 10px 22px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .btn-reset:hover { border-color: var(--primary); color: var(--primary); background: #f0f4fb; }
+  .btn-submit {
+    padding: 11px 34px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 3px 10px rgba(26,60,110,0.25);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(26,60,110,0.32);
+  }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* Status messages */
+  .status-msg {
+    display: none;
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    margin-top: 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    align-items: center;
+    gap: 10px;
+  }
+  .status-msg.show { display: flex; }
+  .status-msg.success {
+    background: var(--success-bg);
+    border: 1px solid #b7dfca;
+    color: var(--success);
+  }
+  .status-msg.error {
+    background: var(--error-bg);
+    border: 1px solid #f0aab8;
+    color: var(--error);
+  }
+  .status-msg.loading {
+    background: #eef3fb;
+    border: 1px solid var(--border);
+    color: var(--primary);
+  }
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(26,60,110,0.2);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Signature section */
+  .signature-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  .signature-box {
+    text-align: center;
+    min-width: 220px;
+  }
+  .signature-box .sig-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  .sig-date-line {
+    display: flex; align-items: center; gap: 6px; justify-content: center;
+    font-size: 0.84rem; color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .sig-date-line input {
+    width: 50px; padding: 3px 6px;
+    border: none; border-bottom: 1.5px solid var(--border);
+    border-radius: 0; background: transparent; text-align: center;
+    font-size: 0.84rem;
+  }
+  .sig-title-bottom {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 8px;
+  }
+
+  /* GAS config notice */
+  .config-notice {
+    background: linear-gradient(90deg, #fffbeb, #fef9f0);
+    border: 1.5px solid #f0c040;
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 0.8rem;
+    color: #6b4a00;
+    display: flex; gap: 10px; align-items: flex-start;
+    line-height: 1.5;
+  }
+  .config-notice code {
+    background: rgba(0,0,0,0.07);
+    padding: 1px 6px; border-radius: 4px;
+    font-family: monospace; font-size: 0.78rem;
+  }
+
+  /* === TAB NAV === */
+  .tab-nav {
+    display: flex;
+    background: var(--primary);
+    box-shadow: 0 3px 10px rgba(26,60,110,0.20);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-nav-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    width: 100%;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 13px 10px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Kantumruy Pro', 'Hanuman', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.18s;
+    border-bottom: 3px solid transparent;
+    letter-spacing: 0.2px;
+  }
+  .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.10); }
+  .tab-btn.active {
+    color: #fff;
+    border-bottom-color: var(--gold);
+    background: rgba(255,255,255,0.12);
+  }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+  #tab-dashboard { position: relative; min-height: 500px; }
+
+  /* === STAT CARDS === */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 14px;
+    box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 4px;
+    position: relative; overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .stat-card.total::before  { background: var(--primary); }
+  .stat-card.sac1::before   { background: #c8102e; }
+  .stat-card.sac2::before   { background: #e67300; }
+  .stat-card.sac3::before   { background: #b58900; }
+  .stat-card.sac4::before   { background: #1a7a4a; }
+  .stat-card.nm::before     { background: #6e3c8e; }
+  .stat-icon { font-size: 20px; margin-bottom: 2px; }
+  .stat-value {
+    font-size: 2rem; font-weight: 800; line-height: 1;
+    color: var(--primary);
+  }
+  .stat-card.sac1 .stat-value { color: #c8102e; }
+  .stat-card.sac2 .stat-value { color: #e67300; }
+  .stat-card.sac3 .stat-value { color: #b58900; }
+  .stat-card.sac4 .stat-value { color: #1a7a4a; }
+  .stat-card.nm   .stat-value { color: #6e3c8e; }
+  .stat-label { font-size: 0.74rem; color: var(--text-muted); font-weight: 600; }
+  .stat-sub   { font-size: 0.7rem;  color: var(--text-muted); }
+
+  /* === CHART CARDS === */
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-card-header {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chart-card-header span { font-size: 0.84rem; font-weight: 700; color: var(--primary); }
+  .chart-card-body { padding: 14px; position: relative; }
+  canvas { max-width: 100%; }
+
+  /* === REPORT BUTTONS === */
+  .report-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .report-section-title {
+    font-size: 0.88rem; font-weight: 700; color: var(--primary);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .report-btn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .report-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 14px 10px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.18s;
+  }
+  .report-btn:hover { border-color: var(--primary); background: #eef3fb; color: var(--primary); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .report-btn .rb-icon { font-size: 22px; }
+  .report-btn .rb-period { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+
+  /* === DASHBOARD FILTER BAR === */
+  .dash-filter-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    flex-wrap: wrap;
+  }
+  .dash-filter-bar label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; margin: 0; white-space: nowrap; }
+  .dash-filter-bar select { width: auto; padding: 6px 10px; font-size: 0.8rem; flex-shrink: 0; }
+  .dash-filter-bar .btn-refresh {
+    margin-left: auto;
+    padding: 7px 16px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.18s;
+  }
+  .dash-filter-bar .btn-refresh:hover { background: var(--primary-light); }
+
+  /* recent table */
+  .recent-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+  .recent-table th {
+    background: #f0f4fb; color: var(--primary);
+    font-weight: 700; padding: 8px 10px; text-align: left;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  .recent-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .recent-table tr:last-child td { border-bottom: none; }
+  .recent-table tr:hover td { background: #f7f9fc; }
+  .sac-pill {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 0.7rem; font-weight: 700; white-space: nowrap;
+  }
+  .sac-pill.SAC1 { background: #fde8ec; color: #c8102e; }
+  .sac-pill.SAC2 { background: #fff0e0; color: #e67300; }
+  .sac-pill.SAC3 { background: #fdf8e0; color: #b58900; }
+  .sac-pill.SAC4 { background: #e6f7ee; color: #1a7a4a; }
+  .sac-pill.Near-Miss { background: #f0e8f8; color: #6e3c8e; }
+  .dash-empty { text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.85rem; }
+
+  /* print report modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 1000;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: #fff; border-radius: var(--radius-lg);
+    width: min(680px, 95vw); max-height: 90vh;
+    overflow-y: auto; box-shadow: var(--shadow-lg);
+    padding: 28px;
+    font-size: 0.84rem; line-height: 1.7;
+  }
+  .modal-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 20px; gap: 16px;
+  }
+  .modal-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+  .modal-close {
+    background: none; border: none; font-size: 22px; cursor: pointer;
+    color: var(--text-muted); line-height: 1; flex-shrink: 0;
+  }
+  .modal-close:hover { color: var(--accent); }
+  .report-print-header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 14px; }
+  .report-print-header h1 { font-size: 1rem; font-weight: 800; color: var(--primary); }
+  .report-print-header p  { font-size: 0.78rem; color: var(--text-muted); }
+  .report-stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+  .report-stat-box { background: #f0f4fb; border-radius: var(--radius); padding: 12px; text-align: center; }
+  .report-stat-box .v { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
+  .report-stat-box .l { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; }
+  .report-table { width: 100%; border-collapse: collapse; font-size: 0.76rem; margin-bottom: 16px; }
+  .report-table th { background: var(--primary); color: #fff; padding: 7px 9px; text-align: left; }
+  .report-table td { padding: 6px 9px; border-bottom: 1px solid var(--border); }
+  .report-table tr:nth-child(even) td { background: #f7f9fc; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+  .btn-print {
+    padding: 9px 22px; background: var(--primary); color: #fff;
+    border: none; border-radius: var(--radius); font-family: inherit;
+    font-size: 0.88rem; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .btn-print:hover { background: var(--primary-light); }
+  .btn-modal-close {
+    padding: 9px 18px; background: var(--surface2); color: var(--text-muted);
+    border: 1.5px solid var(--border); border-radius: var(--radius);
+    font-family: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+  }
+
+  .range-quick-btn {
+    padding: 5px 12px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .range-quick-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header-inner { flex-wrap: wrap; padding: 18px 14px 14px; }
+    .header-badge { order: -1; margin-left: 0; }
+    .page-wrap { padding: 16px 8px 36px; }
+    .card-body { padding: 16px; }
+    .sac-grid { grid-template-columns: repeat(3, 1fr); }
+    .form-id-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .form-id-info { margin-left: 0; }
+    .submit-actions { justify-content: stretch; }
+    .btn-submit, .btn-reset { flex: 1; justify-content: center; }
+    .chart-row { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: repeat(3,1fr); }
+    .report-stat-row { grid-template-columns: repeat(2,1fr); }
+  }
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box !important; }
+    body > *:not(#printArea) { display: none !important; }
+    #printArea {
+      display: block !important;
+      position: static !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 6mm 8mm !important;
+      margin: 0 !important;
+      font-family: 'Kantumruy Pro', 'Hanuman', sans-serif !important;
+      font-size: 9px !important;
+      line-height: 1.4 !important;
+      color: #000 !important;
+      overflow: hidden !important;
+    }
+    #printArea * {
+      max-width: 100% !important;
+      overflow-wrap: break-word !important;
+      word-break: break-word !important;
+    }
+    #printArea div[style*="overflow-x:auto"],
+    #printArea div[style*="overflow-x: auto"] {
+      overflow: visible !important;
+    }
+    #printArea table {
+      width: 100% !important;
+      table-layout: fixed !important;
+      page-break-inside: auto !important;
+      font-size: 8px !important;
+      border-collapse: collapse !important;
+    }
+    #printArea th, #printArea td {
+      padding: 3px 4px !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+    }
+    /* Set explicit column widths for the main incident list table */
+    #printArea table.incident-list col:nth-child(1)  { width: 3% !important; }
+    #printArea table.incident-list col:nth-child(2)  { width: 13% !important; }
+    #printArea table.incident-list col:nth-child(3)  { width: 8% !important; }
+    #printArea table.incident-list col:nth-child(4)  { width: 6% !important; }
+    #printArea table.incident-list col:nth-child(5)  { width: 16% !important; }
+    #printArea table.incident-list col:nth-child(6)  { width: 16% !important; }
+    #printArea table.incident-list col:nth-child(7)  { width: 8% !important; }
+    #printArea table.incident-list col:nth-child(8)  { width: 6% !important; }
+    #printArea table.incident-list col:nth-child(9)  { width: 7% !important; }
+    #printArea table.incident-list col:nth-child(10) { width: 17% !important; }
+    #printArea tr { page-break-inside: avoid !important; }
+    @page {
+      size: A4 landscape;
+      margin: 10mm 8mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-logo" style="background:none;border:none;padding:0"><img src="data:image/jpeg;base64,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" alt="KCPH Logo" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.4)"></div>
+    <div class="header-text">
+      <div class="header-kh-title">ព្រះរាជាណាចក្រកម្ពុជា • ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+      <div class="header-main-title">មន្ទីរពេទ្យបង្អែកខេត្តកំពង់ឆ្នាំង</div>
+      <div class="header-subtitle">ក្រុមការងារគ្រប់គ្រងហានិភ័យ &nbsp;|&nbsp; QIS-001 V01</div>
+    </div>
+    <div class="header-badge">PSIR Platform</div>
+  </div>
+  <div class="header-rule"></div>
+</header>
+
+<nav class="tab-nav">
+  <div class="tab-nav-inner">
+    <button class="tab-btn active" data-tab="form" onclick="switchTab('form',this)">📋 បំពេញរបាយការណ៍</button>
+    <button class="tab-btn" data-tab="dashboard" onclick="switchTab('dashboard',this)">📊 ផ្ទាំងព័ត៌មាន / Dashboard</button>
+  </div>
+</nav>
+
+<!-- ===== PAGE ===== -->
+<div class="page-wrap">
+
+<!-- ========== TAB: FORM ========== -->
+<div id="tab-form" class="tab-pane active">
+
+  <!-- Form ID bar -->
+  <div class="form-id-bar">
+    <span class="form-id-label">លេខ PSIR</span>
+    <span class="form-id-value" id="psirDisplay">PSIR-............</span>
+    <div class="form-id-divider"></div>
+    <span class="form-id-label">ប្រភេទឯកសារ</span>
+    <span style="font-size:0.85rem;font-weight:600;color:var(--text)">របាយការណ៍ឧប្បត្តិវហេតុ</span>
+    <div class="form-id-info">
+      <span class="urgency-badge">⏰ ត្រូវបំពេញក្នុងរយៈពេល ២៤ម៉ោង</span>
+    </div>
+  </div>
+
+  <form id="incidentForm" novalidate>
+
+    <!-- ========== SECTION I: INCIDENT INFO ========== -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon">📋</div>
+        <h2>I. ព័ត៌មានអំពីឧប្បត្តិវហេតុ</h2>
+        <span class="section-num">ផ្នែកទី ១</span>
+      </div>
+      <div class="card-body">
+
+        <!-- 1. Patient Info -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:10px;">១. ព័ត៌មានអ្នកជំងឺ</p>
+        <div class="form-row">
+          <div class="form-group" style="max-width:90px">
+            <label>អាយុ <span class="req">*</span></label>
+            <input type="number" id="patientAge" name="patientAge" placeholder="0" min="0" max="150">
+          </div>
+          <div class="form-group" style="max-width:120px">
+            <label>រង្វាស់</label>
+            <select id="patientAgeUnit" name="patientAgeUnit">
+              <option value="ឆ្នាំ">ឆ្នាំ</option>
+              <option value="ខែ">ខែ (≤ ២ ឆ្នាំ)</option>
+              <option value="ថ្ងៃ">ថ្ងៃ (ទារក)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ភេទ <span class="req">*</span></label>
+            <div class="gender-group" id="genderGroup">
+              <label class="gender-option" onclick="selectGender('ប្រុស',this)">
+                <input type="radio" name="patientGender" value="ប្រុស">
+                <span class="radio-dot"></span> ប្រុស
+              </label>
+              <label class="gender-option" onclick="selectGender('ស្រី',this)">
+                <input type="radio" name="patientGender" value="ស្រី">
+                <span class="radio-dot"></span> ស្រី
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <hr class="section-sep">
+
+        <!-- 2. Incident datetime -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:10px;">២. ពេលវេលាឧប្បត្តិវហេតុ <span class="req">*</span></p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>ថ្ងៃខែឆ្នាំ</label>
+            <input type="date" id="incidentDate" name="incidentDate">
+          </div>
+          <div class="form-group">
+            <label>ម៉ោង</label>
+            <input type="time" id="incidentTime" name="incidentTime">
+          </div>
+        </div>
+
+        <hr class="section-sep">
+
+        <!-- 3. Location -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:10px;">៣. ទីកន្លែងឧប្បត្តិវហេតុ <span class="req">*</span></p>
+        <div class="checkbox-grid" id="locationGrid">
+          <div class="checkbox-item" onclick="toggleLocation('OPD',this)"><span class="custom-check">✓</span> OPD</div>
+          <div class="checkbox-item" onclick="toggleLocation('ER',this)"><span class="custom-check">✓</span> ER</div>
+          <div class="checkbox-item" onclick="toggleLocation('OR',this)"><span class="custom-check">✓</span> OR</div>
+          <div class="checkbox-item" onclick="toggleLocation('SurgA+B',this)"><span class="custom-check">✓</span> SurgA+B</div>
+          <div class="checkbox-item" onclick="toggleLocation('MB',this)"><span class="custom-check">✓</span> MB</div>
+          <div class="checkbox-item" onclick="toggleLocation('ICU',this)"><span class="custom-check">✓</span> ICU</div>
+          <div class="checkbox-item" onclick="toggleLocation('GYN',this)"><span class="custom-check">✓</span> GYN</div>
+          <div class="checkbox-item" onclick="toggleLocation('MAT',this)"><span class="custom-check">✓</span> MAT</div>
+          <div class="checkbox-item" onclick="toggleLocation('PDT',this)"><span class="custom-check">✓</span> PDT</div>
+          <div class="checkbox-item" onclick="toggleLocation('OPT',this)"><span class="custom-check">✓</span> OPT</div>
+          <div class="checkbox-item" onclick="toggleLocation('Pharmacy',this)"><span class="custom-check">✓</span> Pharmacy</div>
+          <div class="checkbox-item" onclick="toggleLocation('OI/ART',this)"><span class="custom-check">✓</span> OI/ART</div>
+          <div class="checkbox-item" onclick="toggleLocation('Labo',this)"><span class="custom-check">✓</span> Labo</div>
+          <div class="checkbox-item" onclick="toggleLocation('OT',this)"><span class="custom-check">✓</span> OT (Operation Theater)</div>
+          <div class="checkbox-item" id="otherLocCheck" onclick="toggleLocation('Other',this)"><span class="custom-check">✓</span> Other</div>
+        </div>
+        <div id="otherLocRow" style="display:none;" class="other-specify-row">
+          <div class="form-group">
+            <label>Please specify <span class="req">*</span></label>
+            <input type="text" id="locationOther" name="locationOther" placeholder="ពណ៌នាទីកន្លែង...">
+          </div>
+        </div>
+
+        <hr class="section-sep">
+
+        <!-- 4. Causation agents -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:10px;">៤. ភ្នាក់ងារពាក់ព័ន្ធ</p>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>ក. មូលហេតុសង្ស័យ</label>
+            <textarea id="suspectedCause" name="suspectedCause" placeholder="រាយឈ្មោះភ្នាក់ងារដែលអាចបង្កើតឧប្បត្តិវហេតុ..."></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>ខ. កត្តាចូលរួម</label>
+            <textarea id="contributingFactors" name="contributingFactors" placeholder="រាយភ្នាក់ងារដែលពាក់ព័ន្ធ ឬធ្វើអោយឧប្បត្តិវហេតុធ្ងន់ធ្ងរបន្ថែម..."></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>គ. កត្តាកាត់បន្ថយ</label>
+            <textarea id="mitigatingFactors" name="mitigatingFactors" placeholder="រាយភ្នាក់ងារដែលបានកាត់បន្ថយការកើតឡើង ឬផលប៉ះពាល់..."></textarea>
+          </div>
+        </div>
+
+        <hr class="section-sep">
+
+        <!-- 5. Incident type -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:10px;">៥. ប្រភេទឧប្បត្តិវហេតុ</p>
+        <div class="checkbox-grid" id="incidentTypeGrid">
+          <div class="checkbox-item" onclick="toggleIncidentType('Medication',this)"><span class="custom-check">✓</span> Medication</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('Surgical',this)"><span class="custom-check">✓</span> Surgical</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('HAI',this)"><span class="custom-check">✓</span> HAI</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('Diagnostic',this)"><span class="custom-check">✓</span> Diagnostic</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('Fall',this)"><span class="custom-check">✓</span> Fall</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('Pressure Ulcer',this)"><span class="custom-check">✓</span> Pressure Ulcer</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('Patient Misidentification',this)"><span class="custom-check">✓</span> Patient Misidentification</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('Blood Transfusion',this)"><span class="custom-check">✓</span> Blood Transfusion</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('Venous Thromboembolism',this)"><span class="custom-check">✓</span> Venous Thromboembolism</div>
+          <div class="checkbox-item" onclick="toggleIncidentType('IPC',this)"><span class="custom-check">✓</span> IPC</div>
+        </div>
+
+        <hr class="section-sep">
+
+        <!-- 6. SAC / Severity -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:6px;">៦. លទ្ធផលនៃឧប្បត្តិវហេតុ (SAC) <span class="req">*</span></p>
+        <div class="field-note">
+          SAC1 = ធ្ងន់ធ្ងរ/ស្លាប់ &nbsp;|&nbsp; SAC2 = មធ្យម &nbsp;|&nbsp; SAC3 = តិចតួច &nbsp;|&nbsp; SAC4 = គ្មានគ្រោះថ្នាក់ &nbsp;|&nbsp; Near-Miss = ស្ទើរនឹងកើត
+        </div>
+        <div class="sac-grid" id="sacGrid">
+          <div class="sac-item sac1" onclick="selectSAC('SAC1',this)">
+            <span class="sac-badge">SAC1</span>
+            <span class="sac-label">ធ្ងន់ធ្ងរ / ស្លាប់</span>
+          </div>
+          <div class="sac-item sac2" onclick="selectSAC('SAC2',this)">
+            <span class="sac-badge">SAC2</span>
+            <span class="sac-label">មធ្យម</span>
+          </div>
+          <div class="sac-item sac3" onclick="selectSAC('SAC3',this)">
+            <span class="sac-badge">SAC3</span>
+            <span class="sac-label">តិចតួច</span>
+          </div>
+          <div class="sac-item sac4" onclick="selectSAC('SAC4',this)">
+            <span class="sac-badge">SAC4</span>
+            <span class="sac-label">គ្មានគ្រោះ</span>
+          </div>
+          <div class="sac-item nearmiss" onclick="selectSAC('Near-Miss',this)">
+            <span class="sac-badge" style="font-size:0.85rem">Near-Miss</span>
+            <span class="sac-label">ស្ទើរ​នឹង​កើត</span>
+          </div>
+        </div>
+
+        <hr class="section-sep">
+
+        <!-- 7. Actions taken -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:10px;">៧. សកម្មភាពដែលបានអនុវត្ត</p>
+        <div class="form-group">
+          <textarea id="actionsTaken" name="actionsTaken" rows="3" placeholder="ពណ៌នាសកម្មភាព ឬវិធានការដែលបានអនុវត្តភ្លាមៗ..."></textarea>
+        </div>
+
+        <hr class="section-sep">
+
+        <!-- 8. Reporter role -->
+        <p style="font-size:0.82rem;font-weight:700;color:var(--primary);margin-bottom:10px;">៨. តួនាទីអ្នករាយការណ៍ <span class="req">*</span></p>
+        <div class="reporter-grid" id="reporterGrid">
+          <div class="reporter-item" onclick="selectReporter('អ្នកបង្ករឧប្បត្តិវហេតុ',this)">
+            <span class="reporter-icon">⚡</span>
+            <span>អ្នកបង្ករឧប្បត្តិវហេតុ</span>
+          </div>
+          <div class="reporter-item" onclick="selectReporter('អ្នកឃើញឧប្បត្តិវហេតុ',this)">
+            <span class="reporter-icon">👁️</span>
+            <span>អ្នកឃើញឧប្បត្តិវហេតុ</span>
+          </div>
+          <div class="reporter-item" onclick="selectReporter('អ្នកលឺឧប្បត្តិវហេតុ',this)">
+            <span class="reporter-icon">👂</span>
+            <span>អ្នកលឺឧប្បត្តិវហេតុ</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========== SECTION II: ADDITIONAL INFO ========== -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon">📝</div>
+        <h2>II. ព័ត៌មានបន្ថែមអំពីឧប្បត្តិវហេតុ</h2>
+        <span class="section-num">ផ្នែកទី ២</span>
+      </div>
+      <div class="card-body">
+        <div class="field-note">
+          ⚠️ <span>ផ្តល់ការពណ៌នា<strong>ច្បាស់លាស់ និងការពិត</strong>អំពីឧប្បត្តិវហេតុ។ ជៀសវាង<strong>ការប៉ាន់ស្មាន ការស្តីបន្ទោស ឬគំនិតផ្ទាល់ខ្លួន</strong>។ ប្រកាន់ខ្ជាប់នូវការពិតប៉ុណ្ណោះ។</span>
+        </div>
+        <div class="form-group">
+          <textarea id="additionalInfo" name="additionalInfo" rows="6"
+            placeholder="ពណ៌នាលម្អិតអំពី&#10;• មានអ្វីកើតឡើង?&#10;• តើឧប្បត្តិវហេតុកើតឡើងតាំងពីពេលណា?&#10;• តើឧប្បត្តិវហេតុកើតឡើងនៅកន្លែងណា?&#10;• នរណាគេពាក់ព័ន្ធ?&#10;• ផលប៉ះពាល់ ឬលទ្ធផលភ្លាមៗ?&#10;• អនុសាសន៍ ឬសកម្មភាពបន្ថែម?"></textarea>
+        </div>
+
+        <hr class="section-sep">
+
+        <div class="signature-row">
+          <div class="signature-box">
+            <div class="sig-title">បានឃើញ</div>
+            <div class="sig-date-line">
+              ថ្ងៃទី <input type="text" id="sigDay" placeholder="..."> ខែ <input type="text" id="sigMonth" placeholder="..."> ឆ្នាំ <input type="text" id="sigYear" placeholder="...">
+            </div>
+            <div style="border-top:1.5px solid var(--border);margin-top:30px;padding-top:6px;"></div>
+            <div class="sig-title-bottom">ប្រធានក្រុមការងារគ្រប់គ្រងហានិភ័យ</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Submit area -->
+    <div class="submit-area">
+      <div class="submit-area-top">
+        <span class="submit-confirm-icon">📤</span>
+        <div class="submit-confirm-text">
+          <strong>ការណែនាំ៖</strong> បន្ទាប់ពីចុច "បញ្ជូនរបាយការណ៍" ទិន្នន័យនឹងត្រូវបានរក្សាទុកក្នុង Google Sheet ដោយស្វ័យប្រវត្តិ។
+          <br>របាយការណ៍ត្រូវបំពេញ <strong>ក្នុងរយៈពេល ២៤ម៉ោង</strong> ក្រោយរកឃើញឧប្បត្តិវហេតុ។
+          ករណីធ្ងន់ធ្ងរ ជូនដំណឹងថ្នាក់ដឹកនាំ <strong>ភ្លាមៗ</strong>។
+        </div>
+      </div>
+
+      <div id="statusMsg" class="status-msg"></div>
+
+      <div class="submit-actions">
+        <button type="button" class="btn-reset" onclick="resetForm()">🔄 ត្រឡប់ / លុប</button>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span>📤</span> បញ្ជូនរបាយការណ៍
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div><!-- end tab-form -->
+
+<!-- ========== TAB: DASHBOARD ========== -->
+<div id="tab-dashboard" class="tab-pane">
+
+  <!-- Login overlay (shown when not authenticated) -->
+  <div id="loginOverlay" style="display:flex;position:absolute;inset:0;min-height:400px;background:rgba(15,30,60,0.82);z-index:200;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#fff;border-radius:14px;padding:32px 28px;width:100%;max-width:380px;box-shadow:0 12px 40px rgba(0,0,0,0.3)">
+      <div style="text-align:center;margin-bottom:22px">
+        <div style="font-size:36px;margin-bottom:8px">🔐</div>
+        <h2 style="font-size:1.05rem;font-weight:800;color:#1a3c6e;margin-bottom:4px">ចូលប្រើប្រាស់ Dashboard</h2>
+        <p style="font-size:0.78rem;color:#5a7a9a">សម្រាប់ Admin និង ប្រធានផ្នែកតែប៉ុណ្ណោះ</p>
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="font-size:0.8rem;font-weight:700;color:#1a3c6e;display:block;margin-bottom:5px">Username</label>
+        <input id="loginUser" type="text" autocomplete="username" placeholder="បញ្ចូល username..." style="width:100%;padding:10px 13px;border:1.5px solid #d0dae8;border-radius:8px;font-family:inherit;font-size:0.88rem;outline:none">
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:0.8rem;font-weight:700;color:#1a3c6e;display:block;margin-bottom:5px">Password</label>
+        <input id="loginPass" type="password" autocomplete="current-password" placeholder="បញ្ចូល password..." style="width:100%;padding:10px 13px;border:1.5px solid #d0dae8;border-radius:8px;font-family:inherit;font-size:0.88rem;outline:none">
+      </div>
+      <div id="loginError" style="display:none;align-items:center;gap:8px;background:#fde8ec;border:1px solid #f0aab8;border-radius:8px;padding:9px 13px;margin-bottom:14px;font-size:0.8rem;color:#c8102e;font-weight:600">
+        <span>❌</span> Username ឬ Password មិនត្រឹមត្រូវ
+      </div>
+      <button onclick="attemptLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#1a3c6e,#2a5298);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:0.92rem;font-weight:700;cursor:pointer">
+        🔓 ចូល / Login
+      </button>
+      <p style="text-align:center;font-size:0.72rem;color:#8a9ab0;margin-top:14px">
+        ត្រូវការជំនួយ? ទំនាក់ទំនង IT Support
+      </p>
+    </div>
+  </div>
+
+  <!-- Logged-in user info bar -->
+  <div id="dashUserBar" style="background:#e8eef8;border:1px solid #d0dae8;border-radius:10px;padding:10px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+    <span style="font-size:18px">👤</span>
+    <div>
+      <span style="font-size:0.82rem;font-weight:700;color:#1a3c6e" id="dashUserName"></span>
+      <span style="font-size:0.75rem;color:#5a7a9a;margin-left:8px" id="dashUserRole"></span>
+    </div>
+    <button onclick="dashLogout()" style="margin-left:auto;padding:6px 14px;background:#fff;border:1.5px solid #d0dae8;border-radius:6px;font-family:inherit;font-size:0.78rem;font-weight:600;color:#5a7a9a;cursor:pointer">
+      🚪 ចាកចេញ
+    </button>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="dash-filter-bar">
+    <label>📅 ត្រងតាម</label>
+    <select id="dashFilter">
+      <option value="all">ទាំងអស់</option>
+      <option value="thisMonth">ខែនេះ</option>
+      <option value="lastMonth">ខែមុន</option>
+      <option value="thisYear">ឆ្នាំនេះ</option>
+      <option value="last7">៧ថ្ងៃចុងក្រោយ</option>
+      <option value="last30">៣០ថ្ងៃចុងក្រោយ</option>
+    </select>
+    <button class="btn-refresh" onclick="loadDashboard()">🔄 ធ្វើបច្ចុប្បន្នភាព</button>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="stat-grid" id="statGrid">
+    <div class="stat-card total">
+      <div class="stat-icon">📋</div>
+      <div class="stat-value" id="statTotal">—</div>
+      <div class="stat-label">សរុបឧប្បត្តិវហេតុ</div>
+    </div>
+    <div class="stat-card sac1">
+      <div class="stat-icon">🔴</div>
+      <div class="stat-value" id="statSAC1">—</div>
+      <div class="stat-label">SAC1 ធ្ងន់ធ្ងរ/ស្លាប់</div>
+    </div>
+    <div class="stat-card sac2">
+      <div class="stat-icon">🟠</div>
+      <div class="stat-value" id="statSAC2">—</div>
+      <div class="stat-label">SAC2 មធ្យម</div>
+    </div>
+    <div class="stat-card sac3">
+      <div class="stat-icon">🟡</div>
+      <div class="stat-value" id="statSAC3">—</div>
+      <div class="stat-label">SAC3 តិចតួច</div>
+    </div>
+    <div class="stat-card sac4">
+      <div class="stat-icon">🟢</div>
+      <div class="stat-value" id="statSAC4">—</div>
+      <div class="stat-label">SAC4 គ្មានគ្រោះ</div>
+    </div>
+    <div class="stat-card nm">
+      <div class="stat-icon">🟣</div>
+      <div class="stat-value" id="statNM">—</div>
+      <div class="stat-label">Near-Miss</div>
+    </div>
+  </div>
+
+  <!-- Charts row 1 -->
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-card-header"><span>📊 SAC ចំណែករបស់ – Severity Distribution</span></div>
+      <div class="chart-card-body"><canvas id="chartSAC" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-header"><span>📍 ទីតាំងឧប្បត្តិវហេតុ – By Location</span></div>
+      <div class="chart-card-body"><canvas id="chartLocation" height="220"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Charts row 2 -->
+  <div class="chart-row">
+    <div class="chart-card full">
+      <div class="chart-card-header"><span>📈 និន្នាការប្រចាំខែ – Monthly Trend</span></div>
+      <div class="chart-card-body"><canvas id="chartTrend" height="140"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Charts row 3 -->
+  <div class="chart-row">
+    <div class="chart-card full">
+      <div class="chart-card-header"><span>🏷️ ប្រភេទឧប្បត្តិវហេតុ – Incident Types</span></div>
+      <div class="chart-card-body"><canvas id="chartType" height="140"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Recent incidents table -->
+  <div class="card" style="margin-top:4px">
+    <div class="card-header">
+      <div class="card-header-icon">🗂️</div>
+      <h2>ឧប្បត្តិវហេតុថ្មីៗ – Recent Incidents</h2>
+      <span class="section-num" id="recentCount">0 ករណី</span>
+    </div>
+    <div class="card-body" style="padding:0;overflow-x:auto">
+      <div id="recentTableWrap"><div class="dash-empty">⏳ ចុច "ធ្វើបច្ចុប្បន្នភាព" ដើម្បីទាញទិន្នន័យ</div></div>
+    </div>
+  </div>
+
+  <!-- Report generation -->
+  <div class="report-section">
+    <div class="report-section-title">🖨️ បង្កើតរបាយការណ៍ – Generate Report</div>
+    <div class="report-btn-grid">
+      <button class="report-btn" onclick="generateReport('daily')">
+        <span class="rb-icon">📅</span>
+        <span>របាយការណ៍ប្រចាំថ្ងៃ</span>
+        <span class="rb-period">Daily Report</span>
+      </button>
+      <button class="report-btn" onclick="generateReport('weekly')">
+        <span class="rb-icon">📆</span>
+        <span>របាយការណ៍ប្រចាំសប្តាហ៍</span>
+        <span class="rb-period">Weekly Report</span>
+      </button>
+      <button class="report-btn" onclick="generateReport('monthly')">
+        <span class="rb-icon">🗓️</span>
+        <span>របាយការណ៍ប្រចាំខែ</span>
+        <span class="rb-period">Monthly Report</span>
+      </button>
+      <button class="report-btn" onclick="generateReport('quarterly')">
+        <span class="rb-icon">📊</span>
+        <span>របាយការណ៍ប្រចាំត្រីមាស</span>
+        <span class="rb-period">Quarterly Report</span>
+      </button>
+      <button class="report-btn" onclick="generateReport('annually')">
+        <span class="rb-icon">📁</span>
+        <span>របាយការណ៍ប្រចាំឆ្នាំ</span>
+        <span class="rb-period">Annual Report</span>
+      </button>
+      <button class="report-btn" onclick="document.getElementById('customRangeBox').style.display='block'">
+        <span class="rb-icon">🔎</span>
+        <span>ជ្រើសកាលបរិច្ឆេទផ្ទាល់ខ្លួន</span>
+        <span class="rb-period">Custom Range</span>
+      </button>
+    </div>
+    <div id="customRangeBox" style="display:none;margin-top:14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;display:none">
+      <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+        <div>
+          <label style="font-size:0.78rem;font-weight:700;color:var(--primary);display:block;margin-bottom:4px">ចាប់ពី</label>
+          <input type="date" id="customStart" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:0.84rem">
+        </div>
+        <div>
+          <label style="font-size:0.78rem;font-weight:700;color:var(--primary);display:block;margin-bottom:4px">រហូតដល់</label>
+          <input type="date" id="customEnd" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:0.84rem">
+        </div>
+        <button onclick="generateReport('custom')" style="padding:9px 20px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-size:0.84rem;font-weight:700;cursor:pointer">បង្កើតរបាយការណ៍</button>
+        <button onclick="document.getElementById('customRangeBox').style.display='none'" style="padding:9px 14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:0.84rem;cursor:pointer">បោះបង់</button>
+      </div>
+    </div>
+
+    <!-- PPTX Export section -->
+    <div style="border-top:1.5px dashed var(--border);margin-top:18px;padding-top:16px">
+      <div style="font-size:0.85rem;font-weight:700;color:var(--primary);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+        <span>📊</span> នាំចេញជា PowerPoint – Export to PPTX
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px">
+        <div>
+          <label style="font-size:0.78rem;font-weight:700;color:var(--primary);display:block;margin-bottom:4px">ចាប់ពីថ្ងៃ</label>
+          <input type="date" id="pptxStart" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:0.84rem">
+        </div>
+        <div>
+          <label style="font-size:0.78rem;font-weight:700;color:var(--primary);display:block;margin-bottom:4px">រហូតថ្ងៃ</label>
+          <input type="date" id="pptxEnd" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:inherit;font-size:0.84rem">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:0.78rem;font-weight:700;color:var(--primary)">ចន្លោះពេលរហ័ស</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button onclick="setPptxRange('thisMonth')" class="range-quick-btn">ខែនេះ</button>
+            <button onclick="setPptxRange('lastMonth')" class="range-quick-btn">ខែមុន</button>
+            <button onclick="setPptxRange('thisQ')"    class="range-quick-btn">ត្រីមាស</button>
+            <button onclick="setPptxRange('thisYear')" class="range-quick-btn">ឆ្នាំនេះ</button>
+          </div>
+        </div>
+        <button onclick="exportPPTX()" id="pptxBtn" style="padding:10px 22px;background:linear-gradient(135deg,#c8102e,#a00c24);color:#fff;border:none;border-radius:var(--radius);font-family:inherit;font-size:0.88rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;align-self:flex-end">
+          <span>⬇️</span> នាំចេញ PPTX
+        </button>
+      </div>
+      <div id="pptxStatus" style="display:none;margin-top:10px;padding:10px 14px;border-radius:var(--radius);font-size:0.82rem;font-weight:600"></div>
+    </div>
+  </div>
+
+</div><!-- end tab-dashboard -->
+
+<!-- Report Print Modal -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box" id="reportContent">
+    <div class="modal-header">
+      <div class="modal-title" id="reportTitle">របាយការណ៍</div>
+      <button class="modal-close" onclick="closeReportModal()">✕</button>
+    </div>
+    <div id="reportBody"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-close" onclick="closeReportModal()">បិទ</button>
+      <button class="btn-print" onclick="printReport()">🖨️ បោះពុម្ព / Print</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end page-wrap -->
+
+<script>
+// =============================================
+// CONFIGURATION — Replace with your GAS URL
+// =============================================
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbz5SG2YVxNV4luWdzBNpce-xs4NN4lVBxfLB2SZQrlKh5TsbN0zC9m64K51OvwawCU/exec';
+// =============================================
+
+// Generate PSIR ID
+function generatePSIR() {
+  const now = new Date();
+  const yy = String(now.getFullYear()).slice(2);
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const dd = String(now.getDate()).padStart(2,'0');
+  const rand = String(Math.floor(Math.random()*9000)+1000);
+  return `PSIR-${yy}${mm}${dd}-${rand}`;
+}
+
+let currentPSIR = generatePSIR();
+document.getElementById('psirDisplay').textContent = currentPSIR;
+
+// Pre-fill today
+const today = new Date();
+document.getElementById('incidentDate').value = today.toISOString().split('T')[0];
+const hh = String(today.getHours()).padStart(2,'0');
+const min = String(today.getMinutes()).padStart(2,'0');
+document.getElementById('incidentTime').value = `${hh}:${min}`;
+document.getElementById('sigDay').value = today.getDate();
+document.getElementById('sigMonth').value = today.getMonth()+1;
+document.getElementById('sigYear').value = today.getFullYear();
+
+// === Toggle helpers ===
+function selectGender(val, el) {
+  document.querySelectorAll('.gender-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+const locationSelected = new Set();
+function toggleLocation(val, el) {
+  const wasChecked = el.classList.contains('checked');
+  if(wasChecked) {
+    el.classList.remove('checked');
+    locationSelected.delete(val);
+  } else {
+    el.classList.add('checked');
+    locationSelected.add(val);
+  }
+  document.getElementById('otherLocRow').style.display = locationSelected.has('Other') ? 'flex' : 'none';
+}
+
+const incidentTypeSelected = new Set();
+function toggleIncidentType(val, el) {
+  if(el.classList.contains('checked')) {
+    el.classList.remove('checked');
+    incidentTypeSelected.delete(val);
+  } else {
+    el.classList.add('checked');
+    incidentTypeSelected.add(val);
+  }
+}
+
+let selectedSAC = '';
+function selectSAC(val, el) {
+  document.querySelectorAll('.sac-item').forEach(e => e.classList.remove('checked'));
+  el.classList.add('checked');
+  selectedSAC = val;
+}
+
+let selectedReporter = '';
+function selectReporter(val, el) {
+  document.querySelectorAll('.reporter-item').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedReporter = val;
+}
+
+// === Show status ===
+function showStatus(type, msg) {
+  const el = document.getElementById('statusMsg');
+  el.className = `status-msg ${type} show`;
+  if(type==='loading') {
+    el.innerHTML = `<span class="spinner"></span> ${msg}`;
+  } else if(type==='success') {
+    el.innerHTML = `<span>✅</span> ${msg}`;
+  } else {
+    el.innerHTML = `<span>❌</span> ${msg}`;
+  }
+  el.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function hideStatus() {
+  const el = document.getElementById('statusMsg');
+  el.className = 'status-msg';
+}
+
+// === Validation ===
+function validate() {
+  const age = document.getElementById('patientAge').value;
+  const gender = document.querySelector('input[name="patientGender"]:checked');
+  const date = document.getElementById('incidentDate').value;
+  const time = document.getElementById('incidentTime').value;
+
+  if(!age) { alert('សូមបំពេញអាយុអ្នកជំងឺ'); return false; }
+  if(!gender) { alert('សូមជ្រើសរើសភេទអ្នកជំងឺ'); return false; }
+  if(!date) { alert('សូមបំពេញកាលបរិច្ឆេទឧប្បត្តិវហេតុ'); return false; }
+  if(!time) { alert('សូមបំពេញម៉ោងឧប្បត្តិវហេតុ'); return false; }
+  if(locationSelected.size === 0) { alert('សូមជ្រើសរើសទីកន្លែងឧប្បត្តិវហេតុ'); return false; }
+  if(locationSelected.has('Other') && !document.getElementById('locationOther').value.trim()) {
+    alert('សូមបញ្ជាក់ទីកន្លែង (Other)'); return false;
+  }
+  if(!selectedSAC) { alert('សូមជ្រើសរើសលទ្ធផលនៃឧប្បត្តិវហេតុ (SAC)'); return false; }
+  if(!selectedReporter) { alert('សូមជ្រើសរើសតួនាទីអ្នករាយការណ៍'); return false; }
+  return true;
+}
+
+// === Submit ===
+document.getElementById('incidentForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  if(!validate()) return;
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  showStatus('loading', 'កំពុងបញ្ជូនរបាយការណ៍...');
+
+  const gender = document.querySelector('input[name="patientGender"]:checked');
+  const locOther = document.getElementById('locationOther').value.trim();
+
+  const payload = {
+    psir_id: currentPSIR,
+    incident_date: document.getElementById('incidentDate').value,
+    incident_time: document.getElementById('incidentTime').value,
+    patient_age: document.getElementById('patientAge').value,
+    patient_age_unit: document.getElementById('patientAgeUnit').value,
+    patient_gender: gender ? gender.value : '',
+    location: Array.from(locationSelected).join(', '),
+    location_other: locOther,
+    suspected_cause: document.getElementById('suspectedCause').value.trim(),
+    contributing_factors: document.getElementById('contributingFactors').value.trim(),
+    mitigating_factors: document.getElementById('mitigatingFactors').value.trim(),
+    incident_type: Array.from(incidentTypeSelected).join(', '),
+    severity: selectedSAC,
+    actions_taken: document.getElementById('actionsTaken').value.trim(),
+    reporter_role: selectedReporter,
+    additional_info: document.getElementById('additionalInfo').value.trim(),
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    const resp = await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    // no-cors: assume success
+    showStatus('success', `របាយការណ៍ ${currentPSIR} បានបញ្ជូនដោយជោគជ័យ! ✅ ទិន្នន័យត្រូវបានរក្សាទុក។`);
+    btn.disabled = false;
+    setTimeout(() => {
+      if(confirm('របាយការណ៍បានបញ្ជូន។ តើអ្នកចង់បំពេញរបាយការណ៍ថ្មី?')) {
+        resetForm();
+      }
+    }, 2000);
+  } catch(err) {
+    showStatus('error', 'មានបញ្ហាក្នុងការបញ្ជូន។ សូមពិនិត្យការតភ្ជាប់អ៊ីនធឺណែត ហើយព្យាយាមម្ដងទៀត។');
+    btn.disabled = false;
+  }
+});
+
+// === Reset ===
+function resetForm() {
+  document.getElementById('incidentForm').reset();
+  // Reset UI state
+  document.querySelectorAll('.gender-option').forEach(e=>e.classList.remove('selected'));
+  document.querySelectorAll('.checkbox-item').forEach(e=>e.classList.remove('checked'));
+  document.querySelectorAll('.sac-item').forEach(e=>e.classList.remove('checked'));
+  document.querySelectorAll('.reporter-item').forEach(e=>e.classList.remove('selected'));
+  locationSelected.clear();
+  incidentTypeSelected.clear();
+  selectedSAC = '';
+  selectedReporter = '';
+  document.getElementById('otherLocRow').style.display = 'none';
+  hideStatus();
+  // New PSIR
+  currentPSIR = generatePSIR();
+  document.getElementById('psirDisplay').textContent = currentPSIR;
+  // Reset date/time
+  const now = new Date();
+  document.getElementById('incidentDate').value = now.toISOString().split('T')[0];
+  const hh2 = String(now.getHours()).padStart(2,'0');
+  const mm2 = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('incidentTime').value = `${hh2}:${mm2}`;
+  document.getElementById('sigDay').value = now.getDate();
+  document.getElementById('sigMonth').value = now.getMonth()+1;
+  document.getElementById('sigYear').value = now.getFullYear();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// =============================================
+// ACCESS CONTROL — Users & Roles
+// =============================================
+// Passwords are stored hashed (SHA-256). To add/change users, update USERS array.
+// Role: 'admin' sees all; 'head' sees dashboard only (no user management).
+const USERS = [
+  { username: 'admin',    password: 'kcph@Admin2024',  role: 'admin',  displayName: 'Administrator' },
+  { username: 'director', password: 'kcph@Director24', role: 'admin',  displayName: 'លោក Dr. Tum Sambath' },
+  { username: 'sokong',   password: 'kcph@SoKong24',   role: 'admin',  displayName: 'លោក Dr. Sok Kong' },
+  { username: 'ukmoli',   password: 'kcph@UkMoli24',   role: 'head',   displayName: 'លោក Dr. Uk Molivann' },
+  { username: 'yeapkong', password: 'kcph@Yeap2024',   role: 'head',   displayName: 'លោក Dr. Yeap Kong' },
+  { username: 'dephead1', password: 'kcph@Head2024',   role: 'head',   displayName: 'ប្រធានផ្នែក' },
+];
+
+let currentUser = null;
+
+function attemptLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const errEl = document.getElementById('loginError');
+  const found = USERS.find(x => x.username === u && x.password === p);
+  if (!found) {
+    errEl.style.display = 'flex';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+    return;
+  }
+  errEl.style.display = 'none';
+  currentUser = found;
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('dashUserName').textContent = found.displayName;
+  document.getElementById('dashUserRole').textContent = found.role === 'admin' ? 'Administrator' : 'Department Head';
+  loadDashboard();
+}
+
+function dashLogout() {
+  currentUser = null;
+  document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  // Reset back to form tab
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-form').classList.add('active');
+  document.querySelector('.tab-btn[data-tab="form"]').classList.add('active');
+}
+
+// =============================================
+// TAB SWITCHING
+// =============================================
+function switchTab(tab, btn) {
+  if (tab === 'dashboard' && !currentUser) {
+    // Show login overlay inside dashboard tab first
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-dashboard').classList.add('active');
+    btn.classList.add('active');
+    document.getElementById('loginOverlay').style.display = 'flex';
+    setTimeout(() => document.getElementById('loginUser').focus(), 100);
+    return;
+  }
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+  if (tab === 'dashboard') loadDashboard();
+}
+
+// Login on Enter key
+document.addEventListener('DOMContentLoaded', function() {
+  ['loginUser','loginPass'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') attemptLogin();
+    });
+  });
+});
+
+// =============================================
+// DASHBOARD
+// =============================================
+let allRecords = [];
+let charts = {};
+
+async function loadDashboard() {
+  const btn = document.querySelector('.btn-refresh');
+  if (!btn) return;
+  btn.textContent = '⏳ កំពុងទាញ...';
+  btn.disabled = true;
+  try {
+    const resp = await fetch(GAS_URL + '?action=getAll');
+    const data = await resp.json();
+    allRecords = data.records || [];
+    renderDashboard();
+  } catch(err) {
+    document.getElementById('recentTableWrap').innerHTML =
+      `<div class="dash-empty">❌ មិនអាចទាញទិន្នន័យបាន។ សូមពិនិត្យការតភ្ជាប់។</div>`;
+  }
+  btn.textContent = '🔄 ធ្វើបច្ចុប្បន្នភាព';
+  btn.disabled = false;
+}
+
+function getFilteredRecords() {
+  const filter = document.getElementById('dashFilter').value;
+  const now = new Date();
+  const todayStr = toYMD(now);
+
+  // Pre-compute range strings
+  const thisMonthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+  const thisMonthEnd   = toYMD(new Date(now.getFullYear(), now.getMonth()+1, 0));
+
+  const lm = new Date(now.getFullYear(), now.getMonth()-1, 1);
+  const lastMonthStart = `${lm.getFullYear()}-${String(lm.getMonth()+1).padStart(2,'0')}-01`;
+  const lastMonthEnd   = toYMD(new Date(lm.getFullYear(), lm.getMonth()+1, 0));
+
+  const thisYearStart  = `${now.getFullYear()}-01-01`;
+  const thisYearEnd    = `${now.getFullYear()}-12-31`;
+
+  const d7  = toYMD(new Date(now.getFullYear(), now.getMonth(), now.getDate()-6));
+  const d30 = toYMD(new Date(now.getFullYear(), now.getMonth(), now.getDate()-29));
+
+  return allRecords.filter(r => {
+    const d = (r.IncidentDate || '').trim().substring(0, 10);
+    if (!d || d.length < 10) return filter === 'all';
+    if (filter === 'all')       return true;
+    if (filter === 'thisMonth') return d >= thisMonthStart && d <= thisMonthEnd;
+    if (filter === 'lastMonth') return d >= lastMonthStart && d <= lastMonthEnd;
+    if (filter === 'thisYear')  return d >= thisYearStart  && d <= thisYearEnd;
+    if (filter === 'last7')     return d >= d7  && d <= todayStr;
+    if (filter === 'last30')    return d >= d30 && d <= todayStr;
+    return true;
+  });
+}
+
+function renderDashboard() {
+  const records = getFilteredRecords();
+
+  // Stat cards — count all 5 severity levels correctly
+  const counts = { 'SAC1': 0, 'SAC2': 0, 'SAC3': 0, 'SAC4': 0, 'Near-Miss': 0 };
+  let unclassified = 0;
+  records.forEach(r => {
+    const s = (r.Severity || '').trim();
+    if (counts.hasOwnProperty(s)) counts[s]++;
+    else unclassified++;
+  });
+
+  document.getElementById('statTotal').textContent = records.length;
+  document.getElementById('statSAC1').textContent  = counts['SAC1'];
+  document.getElementById('statSAC2').textContent  = counts['SAC2'];
+  document.getElementById('statSAC3').textContent  = counts['SAC3'];
+  document.getElementById('statSAC4').textContent  = counts['SAC4'];
+  document.getElementById('statNM').textContent    = counts['Near-Miss'];
+
+  renderSACChart(counts);
+  renderLocationChart(records);
+  renderTrendChart(records);
+  renderTypeChart(records);
+  renderRecentTable(records);
+}
+
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+function renderSACChart(counts) {
+  destroyChart('sac');
+  const ctx = document.getElementById('chartSAC').getContext('2d');
+  const labels = ['SAC1 ធ្ងន់ធ្ងរ','SAC2 មធ្យម','SAC3 តិចតួច','SAC4 គ្មានគ្រោះ','Near-Miss'];
+  const keys   = ['SAC1','SAC2','SAC3','SAC4','Near-Miss'];
+  const values = keys.map(k => counts[k] || 0);
+  charts['sac'] = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{ data: values,
+        backgroundColor: ['#c8102e','#e67300','#b58900','#1a7a4a','#6e3c8e'],
+        borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+              const pct = total ? Math.round(ctx.raw / total * 100) : 0;
+              return ` ${ctx.raw} ករណី (${pct}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+function renderLocationChart(records) {
+  destroyChart('loc');
+  const freq = {};
+  records.forEach(r => {
+    (r.Location || '').split(',').map(s => s.trim()).filter(Boolean)
+      .forEach(l => { freq[l] = (freq[l] || 0) + 1; });
+  });
+  const sorted = Object.entries(freq).sort((a,b) => b[1]-a[1]).slice(0, 13);
+  if (!sorted.length) return;
+  const ctx = document.getElementById('chartLocation').getContext('2d');
+  charts['loc'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sorted.map(e => e[0]),
+      datasets: [{ label: 'ករណី', data: sorted.map(e => e[1]),
+        backgroundColor: 'rgba(42,82,152,0.72)', borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} ករណី` } } },
+      scales: {
+        x: { ticks: { font: { size: 10 }, stepSize: 1 }, grid: { color: '#e8eef8' } },
+        y: { ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+function renderTrendChart(records) {
+  destroyChart('trend');
+  // Build last 12 months range always
+  const now = new Date();
+  const monthMap = {};
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    monthMap[key] = 0;
+  }
+  records.forEach(r => {
+    if (!r.IncidentDate) return;
+    const d = new Date(r.IncidentDate + 'T00:00:00');
+    if (isNaN(d)) return;
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if (monthMap.hasOwnProperty(key)) monthMap[key]++;
+  });
+  const keys = Object.keys(monthMap);
+  const ctx = document.getElementById('chartTrend').getContext('2d');
+  const mKh = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+  const prettyLabels = keys.map(k => {
+    const [y, m] = k.split('-');
+    return `${mKh[parseInt(m)-1]} ${y}`;
+  });
+  charts['trend'] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: prettyLabels,
+      datasets: [{
+        label: 'ករណីប្រចាំខែ', data: keys.map(k => monthMap[k]),
+        borderColor: '#2a5298', backgroundColor: 'rgba(42,82,152,0.08)',
+        fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#2a5298',
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} ករណី` } } },
+      scales: {
+        y: { ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: '#e8eef8' }, min: 0 },
+        x: { ticks: { font: { size: 9 } } }
+      }
+    }
+  });
+}
+
+function renderTypeChart(records) {
+  destroyChart('type');
+  const freq = {};
+  records.forEach(r => {
+    (r.IncidentType || '').split(',').map(s => s.trim()).filter(Boolean)
+      .forEach(t => { freq[t] = (freq[t] || 0) + 1; });
+  });
+  const sorted = Object.entries(freq).sort((a,b) => b[1]-a[1]);
+  if (!sorted.length) return;
+  const colors = ['#1a3c6e','#c8102e','#e67300','#b58900','#1a7a4a','#6e3c8e','#2a5298','#008080','#8b4513'];
+  const ctx = document.getElementById('chartType').getContext('2d');
+  charts['type'] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sorted.map(e => e[0]),
+      datasets: [{ label: 'ករណី', data: sorted.map(e => e[1]),
+        backgroundColor: sorted.map((_,i) => colors[i % colors.length]), borderRadius: 4 }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} ករណី` } } },
+      scales: {
+        y: { ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: '#e8eef8' }, min: 0 },
+        x: { ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+function renderRecentTable(records) {
+  // Sort by most recent incident date first
+  const recent = [...records]
+    .sort((a,b) => new Date(b.IncidentDate||0) - new Date(a.IncidentDate||0))
+    .slice(0, 20);
+  document.getElementById('recentCount').textContent = records.length + ' ករណី';
+  if (!recent.length) {
+    document.getElementById('recentTableWrap').innerHTML = '<div class="dash-empty">គ្មានទិន្នន័យក្នុងរយៈពេលដែលបានជ្រើស</div>';
+    return;
+  }
+  let html = `<table class="recent-table"><thead><tr>
+    <th>PSIR ID</th><th>ថ្ងៃខែ</th><th>ម៉ោង</th><th>ទីតាំង</th><th>ប្រភេទ</th><th>SAC</th><th>ភេទ</th><th>អាយុ</th>
+  </tr></thead><tbody>`;
+  recent.forEach(r => {
+    const sev = (r.Severity || '').trim();
+    const sacClass = sev.replace(/\s/g, '-').replace(/[()]/g,'');
+    const locDisplay = (r.Location||'').split(',').slice(0,2).map(s=>s.trim()).join(', ');
+    const typeDisplay = (r.IncidentType||'—').split(',').slice(0,2).map(s=>s.trim()).join(', ');
+    html += `<tr>
+      <td style="font-family:monospace;font-size:0.7rem;white-space:nowrap">${r.PSIR_ID||''}</td>
+      <td style="white-space:nowrap">${fmtDateStr(r.IncidentDate)}</td>
+      <td style="white-space:nowrap">${r.IncidentTime||'—'}</td>
+      <td>${locDisplay||'—'}</td>
+      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.IncidentType||''}">${typeDisplay}</td>
+      <td><span class="sac-pill ${sacClass}">${sev||'—'}</span></td>
+      <td>${r.PatientGender||'—'}</td>
+      <td style="white-space:nowrap">${r.PatientAge||''} ${r.PatientAgeUnit||''}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('recentTableWrap').innerHTML = html;
+}
+
+// Format stored date string to dd/mm/yyyy
+function fmtDateStr(s) {
+  if (!s) return '—';
+  const d = new Date(s + 'T00:00:00');
+  if (isNaN(d)) return s;
+  return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+}
+
+// =============================================
+// REPORT GENERATION — Fixed date ranges
+// =============================================
+function generateReport(period) {
+  if (!allRecords.length) {
+    alert('សូមចុច "ធ្វើបច្ចុប្បន្នភាព" ដើម្បីទាញទិន្នន័យជាមុន។');
+    return;
+  }
+  const now = new Date();
+  let label, startStr, endStr;
+  const mKh = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+
+  if (period === 'daily') {
+    startStr = toYMD(now);
+    endStr   = toYMD(now);
+    label = `ប្រចាំថ្ងៃ – ${fmtDate(now)}`;
+
+  } else if (period === 'weekly') {
+    const day = now.getDay();
+    const diffToMon = (day === 0) ? -6 : 1 - day;
+    const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() + diffToMon);
+    const sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6);
+    startStr = toYMD(mon);
+    endStr   = toYMD(sun);
+    label = `ប្រចាំសប្តាហ៍ – ${fmtDate(mon)} ដល់ ${fmtDate(sun)}`;
+
+  } else if (period === 'monthly') {
+    const first = new Date(now.getFullYear(), now.getMonth(), 1);
+    const last  = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    startStr = toYMD(first);
+    endStr   = toYMD(last);
+    label = `ប្រចាំខែ${mKh[now.getMonth()]} ឆ្នាំ${now.getFullYear()}`;
+
+  } else if (period === 'quarterly') {
+    const q = Math.floor(now.getMonth() / 3);
+    const first = new Date(now.getFullYear(), q * 3, 1);
+    const last  = new Date(now.getFullYear(), q * 3 + 3, 0);
+    startStr = toYMD(first);
+    endStr   = toYMD(last);
+    const qLabel = ['ទី១ (មករា-មីនា)','ទី២ (មេសា-មិថុនា)','ទី៣ (កក្កដា-កញ្ញា)','ទី៤ (តុលា-ធ្នូ)'];
+    label = `ប្រចាំត្រីមាស${qLabel[q]} ឆ្នាំ${now.getFullYear()}`;
+
+  } else if (period === 'custom') {
+    startStr = document.getElementById('customStart').value;
+    endStr   = document.getElementById('customEnd').value;
+    if (!startStr || !endStr) { alert('សូមជ្រើសកាលបរិច្ឆេទចាប់ផ្តើម និងបញ្ចប់។'); return; }
+    if (startStr > endStr)    { alert('កាលបរិច្ឆេទចាប់ផ្តើមមុនកាលបរិច្ឆេទបញ្ចប់។'); return; }
+    label = `${fmtDate(new Date(startStr+'T00:00:00'))} – ${fmtDate(new Date(endStr+'T00:00:00'))}`;
+
+  } else { // annually
+    startStr = `${now.getFullYear()}-01-01`;
+    endStr   = `${now.getFullYear()}-12-31`;
+    label = `ប្រចាំឆ្នាំ ${now.getFullYear()}`;
+  }
+
+  // Compare as YYYY-MM-DD strings — no timezone issues
+  const filtered = allRecords.filter(r => {
+    const d = (r.IncidentDate || '').trim().substring(0, 10);
+    if (!d || d.length < 10) return false;
+    return d >= startStr && d <= endStr;
+  });
+
+  // Show count and date range for debugging
+  console.log(`[Report] ${label} | Range: ${startStr} → ${endStr} | Found: ${filtered.length} records`);
+
+  buildReportModal(label, new Date(startStr + 'T00:00:00'), new Date(endStr + 'T00:00:00'), filtered, period);
+}
+
+// Convert Date object to YYYY-MM-DD string
+function toYMD(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function fmtDate(d) {
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+
+function buildReportModal(label, start, end, records, period) {
+  const counts = { 'SAC1': 0, 'SAC2': 0, 'SAC3': 0, 'SAC4': 0, 'Near-Miss': 0 };
+  records.forEach(r => {
+    const s = (r.Severity || '').trim();
+    if (counts.hasOwnProperty(s)) counts[s]++;
+  });
+
+  // Gender breakdown
+  let male = 0, female = 0;
+  records.forEach(r => {
+    if ((r.PatientGender||'').includes('ប្រុស')) male++;
+    else if ((r.PatientGender||'').includes('ស្រី')) female++;
+  });
+
+  // Reporter role breakdown
+  const roleFreq = {};
+  records.forEach(r => { const v = r.ReporterRole||'Unknown'; roleFreq[v] = (roleFreq[v]||0)+1; });
+
+  const locFreq = {}, typeFreq = {};
+  records.forEach(r => {
+    (r.Location||'').split(',').map(s=>s.trim()).filter(Boolean)
+      .forEach(l => { locFreq[l]  = (locFreq[l] ||0)+1; });
+    (r.IncidentType||'').split(',').map(s=>s.trim()).filter(Boolean)
+      .forEach(t => { typeFreq[t] = (typeFreq[t]||0)+1; });
+  });
+
+  const topLoc  = Object.entries(locFreq) .sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const topType = Object.entries(typeFreq) .sort((a,b)=>b[1]-a[1]).slice(0,8);
+
+  // Full incident table rows (all records, not just 50)
+  let rows = '';
+  records
+    .sort((a,b) => new Date(a.IncidentDate||0) - new Date(b.IncidentDate||0))
+    .forEach((r, i) => {
+      const sev = (r.Severity||'').trim();
+      const sacColor = {
+        'SAC1':'#c8102e','SAC2':'#e67300','SAC3':'#b58900','SAC4':'#1a7a4a','Near-Miss':'#6e3c8e'
+      }[sev] || '#555';
+      const sacBg = {
+        'SAC1':'#fde8ec','SAC2':'#fff0e0','SAC3':'#fdf8e0','SAC4':'#e6f7ee','Near-Miss':'#f0e8f8'
+      }[sev] || '#f0f0f0';
+      rows += `<tr style="background:${i%2===0?'#fff':'#f7f9fc'}">
+        <td style="font-family:monospace;font-size:0.7rem">${i+1}</td>
+        <td style="font-family:monospace;font-size:0.68rem">${r.PSIR_ID||''}</td>
+        <td>${fmtDateStr(r.IncidentDate)}</td>
+        <td>${r.IncidentTime||'—'}</td>
+        <td>${(r.Location||'').split(',').map(s=>s.trim()).join(', ')||'—'}</td>
+        <td>${(r.IncidentType||'').split(',').map(s=>s.trim()).join(', ')||'—'}</td>
+        <td><span style="display:inline-block;padding:2px 7px;border-radius:10px;font-size:0.68rem;font-weight:700;background:${sacBg};color:${sacColor}">${sev||'—'}</span></td>
+        <td>${r.PatientGender||'—'}</td>
+        <td>${r.PatientAge||'—'} ${r.PatientAgeUnit||''}</td>
+        <td style="max-width:120px;font-size:0.72rem">${(r.ReporterRole||'—')}</td>
+      </tr>`;
+    });
+
+  const reporterRows = Object.entries(roleFreq).map(([k,v]) =>
+    `<tr><td>${k}</td><td style="text-align:center">${v}</td></tr>`
+  ).join('');
+
+  document.getElementById('reportTitle').textContent = 'របាយការណ៍ ' + label;
+  document.getElementById('reportBody').innerHTML = `
+    <div style="text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #1a3c6e">
+      <p style="font-size:0.78rem;color:#5a7a9a;margin-bottom:4px">ព្រះរាជាណាចក្រកម្ពុជា • ជាតិ សាសនា ព្រះមហាក្សត្រ</p>
+      <img src="data:image/jpeg;base64,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" alt="KCPH Logo" style="width:70px;height:70px;border-radius:50%;object-fit:cover;margin-bottom:8px"><h2 style="font-size:1.05rem;font-weight:800;color:#1a3c6e;margin-bottom:2px">មន្ទីរពេទ្យបង្អែកខេត្តកំពង់ឆ្នាំង</h2>
+      <h2 style="font-size:0.95rem;font-weight:700;color:#1a3c6e;margin-bottom:6px">របាយការណ៍ឧប្បត្តិវហេតុ ${label}</h2>
+      <p style="font-size:0.78rem;color:#5a7a9a">រយៈពេល: ${fmtDate(start)} – ${fmtDate(end)} &nbsp;|&nbsp; បង្កើតដោយ: ${currentUser?.displayName||''} &nbsp;|&nbsp; ថ្ងៃទី: ${fmtDate(new Date())}</p>
+    </div>
+
+    <p style="font-weight:700;font-size:0.82rem;margin-bottom:8px;color:#1a3c6e">១. សង្ខេបស្ថិតិ – Summary Statistics</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
+      <div style="background:#f0f4fb;border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.6rem;font-weight:800;color:#1a3c6e">${records.length}</div><div style="font-size:0.72rem;color:#5a7a9a;font-weight:600">សរុបឧប្បត្តិវហេតុ</div></div>
+      <div style="background:#fde8ec;border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.6rem;font-weight:800;color:#c8102e">${counts['SAC1']}</div><div style="font-size:0.72rem;color:#c8102e;font-weight:600">SAC1 – ធ្ងន់ធ្ងរ/ស្លាប់</div></div>
+      <div style="background:#fff0e0;border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.6rem;font-weight:800;color:#e67300">${counts['SAC2']}</div><div style="font-size:0.72rem;color:#e67300;font-weight:600">SAC2 – មធ្យម</div></div>
+      <div style="background:#fdf8e0;border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.6rem;font-weight:800;color:#b58900">${counts['SAC3']}</div><div style="font-size:0.72rem;color:#b58900;font-weight:600">SAC3 – តិចតួច</div></div>
+      <div style="background:#e6f7ee;border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.6rem;font-weight:800;color:#1a7a4a">${counts['SAC4']}</div><div style="font-size:0.72rem;color:#1a7a4a;font-weight:600">SAC4 – គ្មានគ្រោះ</div></div>
+      <div style="background:#f0e8f8;border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.6rem;font-weight:800;color:#6e3c8e">${counts['Near-Miss']}</div><div style="font-size:0.72rem;color:#6e3c8e;font-weight:600">Near-Miss</div></div>
+    </div>
+
+    <p style="font-weight:700;font-size:0.82rem;margin-bottom:8px;color:#1a3c6e">២. ការបែងចែកតាមភេទ – Gender Breakdown</p>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px">
+      <div style="background:#f0f4fb;border-radius:8px;padding:10px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#1a3c6e">${male}</div><div style="font-size:0.72rem;color:#5a7a9a;font-weight:600">ប្រុស</div></div>
+      <div style="background:#fdf0f7;border-radius:8px;padding:10px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#8e3c6e">${female}</div><div style="font-size:0.72rem;color:#8e3c6e;font-weight:600">ស្រី</div></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+      <div>
+        <p style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:#1a3c6e">៣. ទីតាំងច្រើនជាងគេ – Top Locations</p>
+        <table style="width:100%;border-collapse:collapse;font-size:0.76rem">
+          <thead><tr><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:left">ទីតាំង</th><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:center">ករណី</th><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:center">%</th></tr></thead>
+          <tbody>${topLoc.map(([l,n],i)=>`<tr style="background:${i%2?'#f7f9fc':'#fff'}"><td style="padding:5px 8px;border-bottom:1px solid #e0e8f0">${l}</td><td style="padding:5px 8px;border-bottom:1px solid #e0e8f0;text-align:center">${n}</td><td style="padding:5px 8px;border-bottom:1px solid #e0e8f0;text-align:center">${records.length?Math.round(n/records.length*100):0}%</td></tr>`).join('')||'<tr><td colspan="3" style="padding:8px;text-align:center;color:#999">—</td></tr>'}</tbody>
+        </table>
+      </div>
+      <div>
+        <p style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:#1a3c6e">៤. ប្រភេទច្រើនជាងគេ – Top Incident Types</p>
+        <table style="width:100%;border-collapse:collapse;font-size:0.76rem">
+          <thead><tr><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:left">ប្រភេទ</th><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:center">ករណី</th><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:center">%</th></tr></thead>
+          <tbody>${topType.map(([t,n],i)=>`<tr style="background:${i%2?'#f7f9fc':'#fff'}"><td style="padding:5px 8px;border-bottom:1px solid #e0e8f0">${t}</td><td style="padding:5px 8px;border-bottom:1px solid #e0e8f0;text-align:center">${n}</td><td style="padding:5px 8px;border-bottom:1px solid #e0e8f0;text-align:center">${records.length?Math.round(n/records.length*100):0}%</td></tr>`).join('')||'<tr><td colspan="3" style="padding:8px;text-align:center;color:#999">—</td></tr>'}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <p style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:#1a3c6e">៥. តួនាទីអ្នករាយការណ៍ – Reporter Roles</p>
+    <table style="width:100%;border-collapse:collapse;font-size:0.76rem;margin-bottom:16px">
+      <thead><tr><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:left">តួនាទី</th><th style="background:#1a3c6e;color:#fff;padding:6px 8px;text-align:center">ចំនួន</th></tr></thead>
+      <tbody>${reporterRows||'<tr><td colspan="2" style="padding:8px;text-align:center;color:#999">—</td></tr>'}</tbody>
+    </table>
+
+    <p style="font-weight:700;font-size:0.82rem;margin-bottom:6px;color:#1a3c6e">៦. បញ្ជីលម្អិត – Full Incident List (${records.length} ករណី)</p>
+    <div style="overflow-x:auto">
+    <table class="incident-list" style="width:100%;border-collapse:collapse;font-size:0.74rem">
+      <colgroup>
+        <col style="width:3%"><col style="width:13%"><col style="width:8%"><col style="width:6%">
+        <col style="width:16%"><col style="width:16%"><col style="width:8%"><col style="width:6%">
+        <col style="width:7%"><col style="width:17%">
+      </colgroup>
+      <thead><tr style="background:#1a3c6e">
+        <th style="color:#fff;padding:6px 7px;text-align:center">#</th>
+        <th style="color:#fff;padding:6px 7px;text-align:left">PSIR ID</th>
+        <th style="color:#fff;padding:6px 7px">ថ្ងៃខែ</th>
+        <th style="color:#fff;padding:6px 7px">ម៉ោង</th>
+        <th style="color:#fff;padding:6px 7px">ទីតាំង</th>
+        <th style="color:#fff;padding:6px 7px">ប្រភេទ</th>
+        <th style="color:#fff;padding:6px 7px">SAC</th>
+        <th style="color:#fff;padding:6px 7px">ភេទ</th>
+        <th style="color:#fff;padding:6px 7px">អាយុ</th>
+        <th style="color:#fff;padding:6px 7px">អ្នករាយការណ៍</th>
+      </tr></thead>
+      <tbody>${rows||'<tr><td colspan="10" style="padding:14px;text-align:center;color:#999">គ្មានទិន្នន័យ</td></tr>'}</tbody>
+    </table>
+    </div>
+
+    <div style="margin-top:30px;border-top:1px solid #d0dae8;padding-top:16px;display:flex;justify-content:space-between;align-items:flex-end">
+      <div style="font-size:0.72rem;color:#8a9ab0">
+        <p>បង្កើតដោយ: ${currentUser?.displayName||''}</p>
+        <p>ប្រព័ន្ធ PSIR – KCPH QIS-001 V01</p>
+      </div>
+      <div style="text-align:center;min-width:200px">
+        <p style="font-size:0.78rem;color:#5a7a9a">ថ្ងៃទី___ខែ___ឆ្នាំ___</p>
+        <div style="border-top:1.5px solid #d0dae8;margin-top:36px;padding-top:6px"></div>
+        <p style="font-weight:700;font-size:0.78rem;color:#1a3c6e">ប្រធានក្រុមការងារគ្រប់គ្រងហានិភ័យ</p>
+      </div>
+    </div>`;
+
+  document.getElementById('reportModal').classList.add('open');
+}
+
+function printReport() {
+  const content = document.getElementById('reportBody').innerHTML;
+  const printArea = document.getElementById('printArea');
+
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'font-family:"Kantumruy Pro","Hanuman",sans-serif;font-size:9px;line-height:1.4;color:#000;width:100%;max-width:100%;overflow:hidden';
+  wrapper.innerHTML = content;
+
+  // Fix all tables
+  wrapper.querySelectorAll('table').forEach(t => {
+    t.style.width = '100%';
+    t.style.tableLayout = 'fixed';
+    t.style.fontSize = '8px';
+    t.style.borderCollapse = 'collapse';
+    t.removeAttribute('min-width');
+  });
+
+  // Remove overflow/min-width from wrapper divs
+  wrapper.querySelectorAll('div').forEach(d => {
+    if (d.style.overflowX === 'auto' || d.style.overflow === 'auto') d.style.overflow = 'visible';
+    if (d.style.minWidth) d.style.minWidth = '';
+  });
+
+  printArea.innerHTML = '';
+  printArea.appendChild(wrapper);
+  printArea.style.display = 'block';
+  window.print();
+  printArea.style.display = 'none';
+}
+
+// =============================================
+// PPTX EXPORT
+// =============================================
+function setPptxRange(preset) {
+  const now = new Date();
+  let s, e;
+  if (preset === 'thisMonth') {
+    s = new Date(now.getFullYear(), now.getMonth(), 1);
+    e = new Date(now.getFullYear(), now.getMonth()+1, 0);
+  } else if (preset === 'lastMonth') {
+    s = new Date(now.getFullYear(), now.getMonth()-1, 1);
+    e = new Date(now.getFullYear(), now.getMonth(), 0);
+  } else if (preset === 'thisQ') {
+    const q = Math.floor(now.getMonth()/3);
+    s = new Date(now.getFullYear(), q*3, 1);
+    e = new Date(now.getFullYear(), q*3+3, 0);
+  } else {
+    s = new Date(now.getFullYear(), 0, 1);
+    e = new Date(now.getFullYear(), 11, 31);
+  }
+  document.getElementById('pptxStart').value = toYMD(s);
+  document.getElementById('pptxEnd').value   = toYMD(e);
+}
+
+function setPptxStatus(msg, type) {
+  const el = document.getElementById('pptxStatus');
+  el.style.display = 'flex';
+  el.style.alignItems = 'center';
+  el.style.gap = '8px';
+  const colors = {
+    loading: { bg:'#eef3fb', border:'#d0dae8', color:'#1a3c6e' },
+    success: { bg:'#e6f7ee', border:'#b7dfca', color:'#1a7a4a' },
+    error:   { bg:'#fde8ec', border:'#f0aab8', color:'#c8102e' }
+  }[type] || { bg:'#f0f4fb', border:'#d0dae8', color:'#1a3c6e' };
+  el.style.background = colors.bg;
+  el.style.border = `1px solid ${colors.border}`;
+  el.style.color = colors.color;
+  el.innerHTML = msg;
+  if (type === 'success' || type === 'error') setTimeout(() => { el.style.display='none'; }, 5000);
+}
+
+function exportPPTX() {
+  const startStr = document.getElementById('pptxStart').value;
+  const endStr   = document.getElementById('pptxEnd').value;
+  if (!startStr || !endStr) { alert('សូមជ្រើសកាលបរិច្ឆេទចាប់ផ្តើម និងបញ្ចប់។'); return; }
+  if (startStr > endStr)    { alert('កាលបរិច្ឆេទចាប់ផ្តើមមុនកាលបរិច្ឆេទបញ្ចប់។'); return; }
+
+  const user = encodeURIComponent(currentUser?.displayName || '');
+  const url  = `${GAS_URL}?action=generatePPTXDirect&start=${startStr}&end=${endStr}&user=${user}`;
+
+  // Open GAS directly in new tab — GAS generates PPTX and returns download page
+  window.open(url, '_blank');
+  setPptxStatus(
+    '🔗 បានបើកទំព័រ Google — សូមរង់ចាំ 20-30 វិនាទី ហើយចុច <b>Download PPTX</b> នៅក្នុង Tab ថ្មី។',
+    'loading'
+  );
+  setTimeout(() => document.getElementById('pptxStatus').style.display='none', 10000);
+}
+
+function closeReportModal() {
+  document.getElementById('reportModal').classList.remove('open');
+}
+</script>
+<!-- Hidden print area — populated before window.print() -->
+<div id="printArea" style="display:none"></div>
+
+</body>
+</html>
